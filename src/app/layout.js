@@ -1,5 +1,6 @@
 import "./globals.css";
 import { ceraRoundPro, inter } from "@/utils/fonts";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
   title: "My Lingkeu",
@@ -9,7 +10,9 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter} ${ceraRoundPro}`}>{children}</body>
+      <body className={`${inter} ${ceraRoundPro}`}>
+        <ClerkProvider>{children}</ClerkProvider>
+      </body>
     </html>
   );
 }
