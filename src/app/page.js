@@ -9,7 +9,6 @@ import BtnLogout from "@/components/auth/Logout";
 export default async function Home() {
   const { userId } = await auth();
   const user = await currentUser();
-  console.log(user);
 
   return (
     <div className="container mx-auto">
