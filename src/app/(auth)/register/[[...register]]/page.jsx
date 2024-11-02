@@ -10,7 +10,7 @@ export default function Page() {
         <SignUp />
         <Link
           href={"/"}
-          className={`flex gap-2 items-center justify-center font-cera font-bold hover:underline ${buttonVariants({ variant: "link" })}`}
+          className={`flex gap-2 items-center justify-center font-cera font-bold hover:underline mt-2`}
         >
           <IoHome /> Back to Home
         </Link>
