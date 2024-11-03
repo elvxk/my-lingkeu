@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import prisma from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -23,6 +24,12 @@ import {
 
 const Dashboard = async () => {
   const user = await currentUser();
+  const listLink = await prisma.Link.findMany({
+    where: {
+      userId: user.id,
+    },
+  });
+
   const data = [
     {
       title: "Title",
@@ -90,7 +97,8 @@ const Dashboard = async () => {
           >
             <h1 className="text-2xl font-cera font-bold">{user.username}</h1>
             <h1 className="font-cera font-bold">
-              {user.firstName + " " + user.lastName}
+              {user.firstName && user.firstName}{" "}
+              {user.lastName && user.lastName}
             </h1>
           </div>
         </div>
@@ -109,7 +117,7 @@ const Dashboard = async () => {
           <IoAddCircle /> Add New
         </Button>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 w-full">
-          {data.map((d, i) => {
+          {listLink.map((d, i) => {
             return (
               <Card
                 key={i}
