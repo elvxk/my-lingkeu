@@ -5,6 +5,7 @@ const isPublicRoute = createRouteMatcher([
   "/:dynamicSegment",
   "/login(.*)",
   "/register(.*)",
+  "/(api|trpc)(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, req) => {

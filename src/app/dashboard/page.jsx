@@ -8,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import prisma from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,34 +23,14 @@ import {
 
 const Dashboard = async () => {
   const user = await currentUser();
-  const listLink = await prisma.Link.findMany({
-    where: {
-      userId: user.id,
-    },
+
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/list`, {
+    method: "POST",
+    body: JSON.stringify({ id: user.id }),
   });
 
-  const data = [
-    {
-      title: "Title",
-      desc: "Deploy your new project in one-click.",
-    },
-    {
-      title: "Title",
-      desc: "Deploy your new project in one-click.",
-    },
-    {
-      title: "Title",
-      desc: "Deploy your new project in one-click.",
-    },
-    {
-      title: "Title",
-      desc: "Deploy your new project in one-click.",
-    },
-    {
-      title: "Title",
-      desc: "Deploy your new project in one-click.",
-    },
-  ];
+  const { data } = await response.json();
+
   return (
     <div className="container mx-auto">
       <main className="flex flex-col gap-4 justify-center items-center min-h-[90vh] m-5">
@@ -116,49 +95,56 @@ const Dashboard = async () => {
         >
           <IoAddCircle /> Add New
         </Button>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 w-full">
-          {listLink.map((d, i) => {
-            return (
-              <Card
-                key={i}
-                className="m-4 bg-white dark:bg-secondaryBlack"
-                data-aos="zoom-in"
-              >
-                <CardHeader>
-                  <CardTitle className="text-black dark:text-white">
-                    {d.title}
-                  </CardTitle>
-                  <CardDescription className="font-cera text-black dark:text-white">
-                    {d.desc}
-                  </CardDescription>
-                </CardHeader>
-                <CardFooter className="-mt-2 grid sm:grid-cols-3 justify-center gap-2 items-center">
-                  <Button
-                    variant="neutral"
-                    size="sm"
-                    className="w-full flex items-center justify-center gap-1"
-                  >
-                    <IoRocket /> Open
-                  </Button>
-                  <Button
-                    variant="neutral"
-                    size="sm"
-                    className="w-full flex items-center justify-center gap-1"
-                  >
-                    <IoConstruct /> Edit
-                  </Button>
-                  <Button
-                    variant="neutral"
-                    size="sm"
-                    className="text-red-500 dark:text-red-500 w-full flex items-center justify-center gap-1"
-                  >
-                    <IoTrashBin /> Remove
-                  </Button>
-                </CardFooter>
-              </Card>
-            );
-          })}
-        </div>
+        {!data && (
+          <p className="-mb-2 mt-4" data-aos="zoom-in">
+            You don't have any list
+          </p>
+        )}
+        {data && (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 w-full">
+            {data.map((d, i) => {
+              return (
+                <Card
+                  key={i}
+                  className="m-4 bg-white dark:bg-secondaryBlack"
+                  data-aos="zoom-in"
+                >
+                  <CardHeader>
+                    <CardTitle className="text-black dark:text-white">
+                      {d.title}
+                    </CardTitle>
+                    <CardDescription className="font-cera text-black dark:text-white">
+                      {d.desc}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardFooter className="-mt-2 grid sm:grid-cols-3 justify-center gap-2 items-center">
+                    <Button
+                      variant="neutral"
+                      size="sm"
+                      className="w-full flex items-center justify-center gap-1"
+                    >
+                      <IoRocket /> Open
+                    </Button>
+                    <Button
+                      variant="neutral"
+                      size="sm"
+                      className="w-full flex items-center justify-center gap-1"
+                    >
+                      <IoConstruct /> Edit
+                    </Button>
+                    <Button
+                      variant="neutral"
+                      size="sm"
+                      className="text-red-500 dark:text-red-500 w-full flex items-center justify-center gap-1"
+                    >
+                      <IoTrashBin /> Remove
+                    </Button>
+                  </CardFooter>
+                </Card>
+              );
+            })}
+          </div>
+        )}
         <div
           className="flex items-center justify-center w-full my-2"
           data-aos="flip-up"
