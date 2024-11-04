@@ -10,7 +10,6 @@ const isPublicRoute = createRouteMatcher([
 
 export default clerkMiddleware(async (auth, req) => {
   if (!isPublicRoute(req)) await auth.protect();
-
   if (req.nextUrl.pathname === "/dashboard") {
     await auth.protect(); // Lindungi rute /dashboard
   }
