@@ -21,12 +21,12 @@ export async function POST(req) {
   }
 
   // Memeriksa apakah ID ada dalam body
-  if (!request.id) {
+  if (!request.link) {
     const response = NextResponse.json(
       {
         code: 400,
         status: "error",
-        message: "ID is required in the request body.",
+        message: "Link is required in the request body.",
       },
       { status: 400 },
     );
@@ -35,24 +35,22 @@ export async function POST(req) {
   }
 
   // Mencoba mengambil data berdasarkan ID
-  const list = await prisma.Link.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
+  const existingLink = await prisma.Link.findUnique({
     where: {
-      userId: request.id,
+      link: request.link,
     },
   });
 
   // Memeriksa apakah data ditemukan
-  if (!list || list.length === 0) {
+  if (!existingLink) {
     const response = NextResponse.json(
       {
-        code: 404,
-        status: "error",
-        message: "No list found for the provided ID.",
+        code: 200,
+        status: "success",
+        message: "No list found for the provided Link.",
+        exist: false,
       },
-      { status: 404 },
+      { status: 200 },
     );
     addCorsHeaders(response);
     return response;
@@ -63,8 +61,8 @@ export async function POST(req) {
     {
       code: 200,
       status: "success",
-      message: "success get " + list.length + " list",
-      data: list,
+      message: "success get the unique link",
+      exist: true,
     },
     { status: 200 },
   );

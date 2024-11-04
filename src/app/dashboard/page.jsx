@@ -1,5 +1,8 @@
 import BtnLogout from "@/components/auth/Logout";
 import BtnManageUser from "@/components/auth/ManageUser";
+import BtnAdd from "@/components/dashboard/BtnAdd";
+import BtnDelete from "@/components/dashboard/BtnDelete";
+import BtnEdit from "@/components/dashboard/BtnEdit";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
@@ -8,13 +11,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import removePrefix from "@/utils/removePrefix";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 import {
   IoRocket,
-  IoConstruct,
-  IoTrashBin,
   IoHome,
   IoSettings,
   IoLogOut,
@@ -89,12 +91,7 @@ const Dashboard = async () => {
           <span className="px-2 font-cera font-bold text-xs">My List</span>
           <div className="flex-grow h-[2px] bg-black"></div>
         </div>
-        <Button
-          className="flex w-[98%] justify-center items-center gap-2"
-          data-aos="zoom-in"
-        >
-          <IoAddCircle /> Add New
-        </Button>
+        <BtnAdd userId={user.id} />
         {!data && (
           <p className="-mb-2 mt-4" data-aos="zoom-in">
             You don't have any list
@@ -110,35 +107,28 @@ const Dashboard = async () => {
                   data-aos="zoom-in"
                 >
                   <CardHeader>
-                    <CardTitle className="text-black dark:text-white">
+                    <CardTitle className="text-black dark:text-white font-cera font-bold">
                       {d.title}
                     </CardTitle>
                     <CardDescription className="font-cera text-black dark:text-white">
+                      <span className="flex-grow h-[2px] bg-black dark:bg-white w-full flex justify-center items-center my-1" />
                       {d.desc}
+                      <span className="flex-grow h-[2px] bg-black dark:bg-white w-full flex justify-center items-center my-1" />
+                      there are {d.list.length} links
+                      <span className="flex-grow h-[2px] bg-black dark:bg-white w-full flex justify-center items-center my-1" />
+                      {removePrefix(process.env.NEXT_PUBLIC_BASE_URL)}/{d.link}
                     </CardDescription>
                   </CardHeader>
                   <CardFooter className="-mt-2 grid sm:grid-cols-3 justify-center gap-2 items-center">
-                    <Button
-                      variant="neutral"
-                      size="sm"
-                      className="w-full flex items-center justify-center gap-1"
+                    <Link
+                      href={`/${d.link}`}
+                      target="_blank"
+                      className={`w-full flex items-center justify-center gap-1 ${buttonVariants({ variant: "neutral", size: "sm" })}`}
                     >
                       <IoRocket /> Open
-                    </Button>
-                    <Button
-                      variant="neutral"
-                      size="sm"
-                      className="w-full flex items-center justify-center gap-1"
-                    >
-                      <IoConstruct /> Edit
-                    </Button>
-                    <Button
-                      variant="neutral"
-                      size="sm"
-                      className="text-red-500 dark:text-red-500 w-full flex items-center justify-center gap-1"
-                    >
-                      <IoTrashBin /> Remove
-                    </Button>
+                    </Link>
+                    <BtnEdit data={d} />
+                    <BtnDelete data={d} />
                   </CardFooter>
                 </Card>
               );

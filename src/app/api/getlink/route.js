@@ -21,12 +21,12 @@ export async function POST(req) {
   }
 
   // Memeriksa apakah ID ada dalam body
-  if (!request.id) {
+  if (!request.link) {
     const response = NextResponse.json(
       {
         code: 400,
         status: "error",
-        message: "ID is required in the request body.",
+        message: "Link is required in the request body.",
       },
       { status: 400 },
     );
@@ -35,12 +35,9 @@ export async function POST(req) {
   }
 
   // Mencoba mengambil data berdasarkan ID
-  const list = await prisma.Link.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
+  const list = await prisma.Link.findFirst({
     where: {
-      userId: request.id,
+      link: request.link,
     },
   });
 
