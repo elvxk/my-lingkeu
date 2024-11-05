@@ -1,4 +1,5 @@
 "use client";
+import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 
 const ThemeSwitch = () => {
@@ -29,9 +30,9 @@ const ThemeSwitch = () => {
   return (
     <button
       onClick={toggleDarkMode}
-      className="fixed top-4 right-4 p-2 bg-gray-200 rounded dark:bg-gray-700"
+      // className="fixed top-4 right-4 p-2 bg-gray-200 rounded dark:bg-gray-700"
     >
-      {isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+      {isDarkMode ? <SunIcon /> : <MoonIcon />}
     </button>
   );
 };

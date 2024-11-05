@@ -1,4 +1,3 @@
-import ThemeSwitch from "@/components/ThemeSwitch";
 import "./globals.css";
 import { ceraRoundPro, inter } from "@/utils/fonts";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -16,7 +15,6 @@ export default function RootLayout({ children }) {
       <body className={`${inter} ${ceraRoundPro}`}>
         <ClerkProvider>
           <ClientAOS>
-            <ThemeSwitch />
             <div className="flex flex-col min-h-screen">
               <main className="flex-1">{children}</main>
               <Footer />
