@@ -16,7 +16,6 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Impor useRouter
 import removePrefix from "@/utils/removePrefix";
-import { useToast } from "@/hooks/use-toast";
 
 const BtnAdd = ({ userId }) => {
   const router = useRouter(); // Ambil instance router
@@ -24,6 +23,21 @@ const BtnAdd = ({ userId }) => {
   const [fields, setFields] = useState([{ name: "", link: "" }]);
   const [isOpen, setIsOpen] = useState(false);
   const [linkError, setLinkError] = useState(""); // State untuk menyimpan pesan error
+  const [inputValue, setInputValue] = useState("");
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+
+    // Validasi apakah input hanya berisi huruf kecil dan angka
+    if (/^[a-z0-9]*$/.test(value)) {
+      setInputValue(value);
+      setLinkError(""); // Hapus pesan error jika input sesuai
+    } else {
+      setLinkError(
+        "Hanya diperbolehkan huruf kecil dan angka tanpa spasi atau simbol.",
+      );
+    }
+  };
 
   // Fungsi untuk menangani perubahan input
   const handleInputChange = (index, event) => {
@@ -119,16 +133,12 @@ const BtnAdd = ({ userId }) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
-      // setIsOpen(false);
-      // window.location.reload();
-      // router.refresh();
     } catch (error) {
       alert(error.message);
     } finally {
-      setIsOpen(false);
       router.refresh();
-      // resetForm(); // Reset semua state
+      setIsOpen(false);
+      resetForm(); // Reset semua state
     }
   };
 
@@ -177,15 +187,7 @@ const BtnAdd = ({ userId }) => {
                 id="link"
                 placeholder="your_link"
                 className="col-span-3"
-                onKeyDown={(event) => {
-                  if (
-                    /[^a-z0-9]/.test(event.key) &&
-                    event.key !== "Backspace"
-                  ) {
-                    event.preventDefault();
-                  }
-                }}
-                onChange={(event) => handleInputLinkChange(0, event)} // Untuk link utama
+                onChange={handleChange}
               />
             </div>
             {linkError && (
@@ -263,7 +265,9 @@ const BtnAdd = ({ userId }) => {
             </Button>
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" disabled={Boolean(linkError)}>
+              Save changes
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
