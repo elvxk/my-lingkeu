@@ -16,6 +16,7 @@ import { Textarea } from "../ui/textarea";
 import { useState } from "react";
 import { useRouter } from "next/navigation"; // Impor useRouter
 import removePrefix from "@/utils/removePrefix";
+import Link from "next/link";
 
 const BtnAdd = ({ userId }) => {
   const router = useRouter(); // Ambil instance router
@@ -170,7 +171,24 @@ const BtnAdd = ({ userId }) => {
         <DialogHeader>
           <DialogTitle>Add Link</DialogTitle>
           <DialogDescription>
-            Make new link to your site here. Click save when youre done.
+            Make new link to your site here. Open{" "}
+            <Link
+              target="_blank"
+              className="underline text-main"
+              href={"https://i.ibb.co.com/G3G8XHt/panduan.webp"}
+            >
+              this
+            </Link>{" "}
+            for help, or you can open the{" "}
+            <Link
+              target="_blank"
+              className="underline text-main"
+              href={
+                "https://github.com/elvxk/my-lingkeu/?tab=readme-ov-file#readme"
+              }
+            >
+              the documentation
+            </Link>
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="grid gap-4 py-4">
