@@ -3,7 +3,7 @@ import BtnManageUser from "@/components/auth/ManageUser";
 import BtnAdd from "@/components/dashboard/BtnAdd";
 import BtnDelete from "@/components/dashboard/BtnDelete";
 import BtnEdit from "@/components/dashboard/BtnEdit";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardDescription,
@@ -15,13 +15,7 @@ import removePrefix from "@/utils/removePrefix";
 import { currentUser } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  IoRocket,
-  IoHome,
-  IoSettings,
-  IoLogOut,
-  IoAddCircle,
-} from "react-icons/io5";
+import { IoRocket, IoHome, IoSettings, IoLogOut } from "react-icons/io5";
 
 const Dashboard = async () => {
   const user = await currentUser();
