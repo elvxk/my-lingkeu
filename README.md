@@ -29,14 +29,14 @@
 
 ## Preview
 
-<p>🔗 <a href="https://lingkeu.my.id" target="_blank">Lihat Preview</a></p><br/>
+<p>🔗 <a href="https://lingkeu.elvxk.web.id" target="_blank">Lihat Preview</a></p><br/>
 <img src="https://cdn.dribbble.com/userupload/17452381/file/original-0e35c43bb33bc10c91b56c45dc5ae25d.webp" width="500"/>
 
 ## Docs
 
 📚 Cara membuat link
 
-- Buka [My Lingkeu](https://lingkeu.my.id)
+- Buka [My Lingkeu](https://lingkeu.elvxk.web.id)
 - Masuk atau buat akun jika belum memiliki akun
 - Masuk ke "Dashboard"
 - Pilih "Add New" untuk membuat Link tree baru
